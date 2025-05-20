@@ -4,12 +4,9 @@ import { useGoogleSignIn } from '@/hooks/useGoogleSignIn';
 
 export function GoogleSignInButton() {
     const { isGoogleSignInLoading, promptGoogleSignIn } = useGoogleSignIn();
-
-    if (isGoogleSignInLoading) { // This reflects the hook readiness, not active sign-in
-        // You might want a more nuanced loading state if promptAsync is in progress
+    if (isGoogleSignInLoading) {
         return <ActivityIndicator />;
     }
-
     return (
         <View style={styles.buttonContainer}>
             <Button title="Sign in with Google" onPress={promptGoogleSignIn} />

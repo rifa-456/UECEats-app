@@ -1,13 +1,9 @@
-// components/WelcomeContent.tsx
-// Your provided file1 code
-// Make sure UserAvatar.tsx is imported correctly, e.g.:
-// import { UserAvatar.tsx } from './UserAvatar.tsx';
 import { View, Text, StyleSheet, Platform } from 'react-native';
 import Animated, {
   FadeInDown,
   FadeInUp
 } from 'react-native-reanimated';
-import { UserAvatar } from './UserAvatar'; // Assuming UserAvatar.tsx.tsx is in the same directory
+import { UserAvatar } from './UserAvatar';
 
 type WelcomeContentProps = {
   user: string; // Username
@@ -15,7 +11,6 @@ type WelcomeContentProps = {
 };
 
 export function WelcomeContent({ user, email }: WelcomeContentProps) {
-  // ... (rest of your WelcomeContent code from file1)
   return (
     <View style={styles.content}>
       <Animated.View

@@ -1,19 +1,21 @@
 import React from 'react';
 import * as Google from 'expo-auth-session/providers/google';
 import * as WebBrowser from 'expo-web-browser';
-import { appConfig } from '@/constants/appConfig';
-import { authenticateWithStrapi } from '@/services/strapiAuthService';
-import { useAuth } from '@/context/AuthContext';
+import { config } from '@/constants/config';
 import Toast from 'react-native-toast-message';
+import {useUserStore} from "@/stores/useUserStore";
+import {providerAuth} from "@/services/strapiService";
+import {useCommonFetch} from "@/hooks/useCommonFetch";
 
 WebBrowser.maybeCompleteAuthSession();
 
 export function useGoogleSignIn() {
-    const { login } = useAuth();
+    const { login } = useUserStore();
+    const { refetchUser } = useCommonFetch();
     const [request, response, promptAsync] = Google.useAuthRequest({
-        iosClientId: appConfig.googleIosClientId,
-        androidClientId: appConfig.googleAndroidClientId,
-        webClientId: appConfig.googleWebClientId,
+        iosClientId: config.googleIosClientId,
+        androidClientId: config.googleAndroidClientId,
+        webClientId: config.googleWebClientId,
         scopes: ['profile', 'email'],
     });
     React.useEffect(() => {
@@ -23,10 +25,9 @@ export function useGoogleSignIn() {
                 if (authentication?.accessToken) {
                     try {
                         Toast.show({ type: 'info', text1: 'Authenticating with server...' });
-                        const { jwt, user: strapiUser } = await authenticateWithStrapi(
-                            authentication.accessToken
-                        );
-                        await login(strapiUser, jwt);
+                        const {user, jwt} = await providerAuth.authenticateProvider('google', authentication.accessToken);
+                        login(user, jwt);
+                        await refetchUser();
                         Toast.show({ type: 'success', text1: 'Login Successful!' });
                     } catch (error: any) {
                         Toast.show({ type: 'error', text1: 'Login Failed', text2: error.message });

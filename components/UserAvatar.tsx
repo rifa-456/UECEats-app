@@ -3,16 +3,13 @@ import { View, Text, Image, StyleSheet } from 'react-native';
 
 type UserAvatarProps = {
   username: string;
-  avatarUrl?: string; // Optional: if Strapi provides an avatar URL
+  avatarUrl?: string;
 };
 
 export function UserAvatar({ username, avatarUrl }: UserAvatarProps) {
-  // Strapi user object might have an avatar field: user.avatar.url
   if (avatarUrl) {
     return <Image source={{ uri: avatarUrl }} style={styles.avatarImage} />;
   }
-
-  // Fallback to initials or a default image
   const initials = username?.substring(0, 2).toUpperCase() || '??';
   return (
     <View style={styles.avatarFallback}>

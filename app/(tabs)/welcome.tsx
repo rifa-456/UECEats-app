@@ -1,7 +1,7 @@
 import React from 'react';
 import { ScrollView, Button, StyleSheet, View } from 'react-native';
 import { WelcomeContent } from '@/components/WelcomeContent';
-import { useAuth } from '@/context/AuthContext';
+import { useAuth } from '@/hooks/useAuth';
 import { Redirect } from 'expo-router';
 
 export default function WelcomeScreen() {

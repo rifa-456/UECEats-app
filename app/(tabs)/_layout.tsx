@@ -1,22 +1,16 @@
 import React from 'react';
 import { Tabs, Redirect } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons'; // Or any icon library you prefer
-import { useAuth } from '@/context/AuthContext'; // Import useAuth
+import { Ionicons } from '@expo/vector-icons';
+import { useAuth } from '@/hooks/useAuth';
 
 export default function TabLayout() {
     const { isAuthenticated, isLoading } = useAuth();
-
-    // While checking auth state, don't render tabs
     if (isLoading) {
         return null;
     }
-
-    // If not authenticated, redirect to the login screen.
-    // This is a safeguard, as the root _layout should handle this.
     if (!isAuthenticated) {
         return <Redirect href="/" />;
     }
-
     return (
         <Tabs
             screenOptions={({ route }) => ({
@@ -32,7 +26,7 @@ export default function TabLayout() {
                 },
                 tabBarActiveTintColor: 'tomato',
                 tabBarInactiveTintColor: 'gray',
-                headerShown: true, // Show headers for tab screens
+                headerShown: true,
             })}
         >
             <Tabs.Screen

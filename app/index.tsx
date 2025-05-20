@@ -1,24 +1,17 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { GoogleSignInButton } from '@/components/ui/GoogleSignInButton';
-import { useAuth } from '@/context/AuthContext';
-import { Redirect } from 'expo-router'; // Keep for potential pre-auth checks
+import { Redirect } from 'expo-router';
+import { useAuth } from '@/hooks/useAuth';
 
 export default function LoginScreen() {
-    const { isAuthenticated, isLoading } = useAuth(); // isLoading from AuthContext
-
-    // While AuthContext is loading initial state, don't render anything or show a spinner
+    const {isLoading,isAuthenticated} = useAuth();
     if (isLoading) {
         return null;
     }
-
-    // If already authenticated (e.g. token found from previous session), redirect to tabs
-    // This redirect is now effectively handled by the RootNavigation in _layout.tsx
-    // but having it here can be a fallback or explicit if needed.
     if (isAuthenticated) {
         return <Redirect href="/(tabs)/welcome" />;
     }
-
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Welcome to UECEats</Text>

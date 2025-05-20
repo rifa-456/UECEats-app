@@ -1,10 +1,9 @@
 import * as SecureStore from 'expo-secure-store';
 import { Platform } from 'react-native';
 
-const TOKEN_KEY = 'strapiAuthToken';
-const USER_KEY = 'strapiUser';
+const TOKEN_KEY = 'authToken';
+const USER_KEY = 'user';
 
-// Web implementation using localStorage
 const webStorage = {
     async setItemAsync(key: string, value: string): Promise<void> {
         localStorage.setItem(key, value);
@@ -17,7 +16,6 @@ const webStorage = {
     }
 };
 
-// Choose the appropriate storage based on platform
 const storage = Platform.OS === 'web' ? webStorage : SecureStore;
 
 export async function storeToken(token: string): Promise<void> {
