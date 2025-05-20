@@ -1,29 +1,48 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import 'react-native-reanimated';
+import React, { useEffect } from 'react';
+import { SplashScreen, Stack } from 'expo-router';
+import Toast from 'react-native-toast-message';
+import { AuthProvider, useAuth } from '@/context/AuthContext';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
-import { useColorScheme } from '@/hooks/useColorScheme';
+// Prevent the splash screen from auto-hiding.
+SplashScreen.preventAutoHideAsync();
+
+function RootNavigation() {
+    const { isLoading, isAuthenticated } = useAuth();
+
+    useEffect(() => {
+        if (!isLoading) {
+            SplashScreen.hideAsync();
+        }
+    }, [isLoading]);
+
+    if (isLoading) {
+        return null; // Or a custom loading screen if you prefer over splash
+    }
+
+    return (
+        <Stack screenOptions={{ headerShown: false }}>
+            {isAuthenticated ? (
+                // If authenticated, show the (tabs) group.
+                // The actual tab navigator is defined in (tabs)/_layout.tsx
+                <Stack.Screen name="(tabs)" />
+            ) : (
+                // If not authenticated, show the login screen.
+                <Stack.Screen name="index" />
+            )}
+            {/* This ensures that +not-found.tsx can be reached from anywhere */}
+            <Stack.Screen name="+not-found" />
+        </Stack>
+    );
+}
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-  });
-
-  if (!loaded) {
-    // Async font loading only occurs in development.
-    return null;
-  }
-
-  return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
-  );
+    return (
+        <GestureHandlerRootView style={{ flex: 1 }}>
+            <AuthProvider>
+                <RootNavigation />
+                <Toast />
+            </AuthProvider>
+        </GestureHandlerRootView>
+    );
 }
