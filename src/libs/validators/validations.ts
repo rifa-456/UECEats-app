@@ -37,6 +37,21 @@ export const hasMinLength = (str: string, minLength: number) => str.length >= mi
 export const hasSpecialCharacter = (str: string, DEFAULT_SPECIAL_CHAR_REGEX = /[!@#$%^&*]/) =>
   DEFAULT_SPECIAL_CHAR_REGEX.test(str)
 
+export const isValidPassword = (password: string) => {
+  const hasMinLength8 = hasMinLength(password, 8)
+  const hasUpperCaseLetter = hasUpperCase(password)
+  const hasLowerCaseLetter = hasLowerCase(password)
+  const hasNumberOnPassword = hasNumber(password)
+  const hasSpecialCharacterOnPassword = hasSpecialCharacter(password)
+  return (
+    hasMinLength8 &&
+    hasUpperCaseLetter &&
+    hasLowerCaseLetter &&
+    hasNumberOnPassword &&
+    hasSpecialCharacterOnPassword
+  )
+}
+
 // Validação de celular
 
 export const isMobilePhone = (phone: string) => {
