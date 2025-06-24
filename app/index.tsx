@@ -2,33 +2,55 @@ import { GoogleSignInButton } from "@/components/ui/GoogleSignInButton";
 import { useAuth } from "@/hooks/useAuth";
 import { Redirect } from "expo-router";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { useForm } from 'react-hook-form';
+import { StyleSheet, Text } from "react-native";
+
+
+import { InputEmail, InputText } from "@/src/components/input";
+import PageDefault from "@/src/screens/Default";
+
+const DEFAULT_FORM_VALUES = { email: "", name: ""}
+
+type FormData = {
+  email: string;
+  name: string;
+};
 
 export default function LoginScreen() {
   const { isLoading, isAuthenticated } = useAuth();
+
+  const {
+    control,
+    formState: { isValid },
+    handleSubmit,
+  } = useForm({ defaultValues: DEFAULT_FORM_VALUES, mode: "onChange" })
+
   if (isLoading) {
     return null;
   }
   if (isAuthenticated) {
     return <Redirect href="/(tabs)/welcome" />;
   }
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Welcome to UECEats</Text>
-      <Text style={styles.subtitle}>Please sign in to continue</Text>
+    <PageDefault>
+      <Text style={styles.title}>Bem-Vindo ao UECEats</Text>
+      <Text style={styles.subtitle}>Faça o login para continuar</Text>
       <GoogleSignInButton />
-    </View>
+
+      <InputText control={control} name="name" placeholder="Digite seu nome completo" rules={{ required: true }} />
+
+      <InputEmail
+            control={control}
+            name="email"
+            placeholder="Digite seu e-mail"
+            rules={{ required: true }}
+          />
+    </PageDefault>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 20,
-    backgroundColor: "#f5f5f5",
-  },
   title: {
     fontSize: 32,
     fontWeight: "bold",
