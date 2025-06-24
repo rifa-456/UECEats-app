@@ -1,8 +1,8 @@
-import React from "react";
-import { View, Text, StyleSheet } from "react-native";
 import { GoogleSignInButton } from "@/components/ui/GoogleSignInButton";
-import { Redirect } from "expo-router";
 import { useAuth } from "@/hooks/useAuth";
+import { Redirect } from "expo-router";
+import React from "react";
+import { StyleSheet, Text, View } from "react-native";
 
 export default function LoginScreen() {
   const { isLoading, isAuthenticated } = useAuth();
