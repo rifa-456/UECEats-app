@@ -20,7 +20,7 @@ const InputPassword = <T extends FieldValues>(
   const togglePassword = () => setShowPassword((prev) => !prev);
 
   return (
-    <View style={{ flexDirection: "row", alignItems: "center" }}>
+    <View style={{ flexDirection: "row", alignItems: "center", width: "100%" }}>
       <InputText
         icon={null}
         {...props}
@@ -31,7 +31,7 @@ const InputPassword = <T extends FieldValues>(
         rules={{ validate, ...props.rules }}
       />
       <TouchableOpacity onPress={togglePassword} style={{ position: "absolute", right: 10, top: 15 }}>
-        {showPassword ? <EyeOffIcon color="#999" size={20} /> : <EyeIcon color="#999" size={20} />}
+        {showPassword ? <EyeOffIcon color="#999" size={22} /> : <EyeIcon color="#999" size={22} />}
       </TouchableOpacity>
     </View>
   );

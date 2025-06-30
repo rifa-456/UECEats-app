@@ -5,23 +5,26 @@ import React from "react";
 import { Control, useForm } from 'react-hook-form';
 
 
-import { Heading, InputEmail, InputPassword, InputText, PasswordWarning } from "@/src/components";
+import { Heading, InputCheckbox, InputEmail, InputPassword, InputText, PasswordWarning } from "@/src/components";
 import PageDefault from "@/src/screens/Default";
 import { UserCreate } from "@/types/custom/user/UserCreateDTO";
-import { Button } from "react-native";
+import { Button, Text, View } from "react-native";
 
-const DEFAULT_FORM_VALUES = { email: "", password: "", name: ""}
+
+const DEFAULT_FORM_VALUES = { email: "", password: "", name: "", term: false };
 
 type FormData = {
   email: string;
   password: string;
   name: string;
+  term: boolean;
 };
 
 export default function LoginScreen() {
   const { isLoading: isLoggingIn, isAuthenticated } = useAuth();
 
   const [isPasswordClicked, setIsPasswordClicked] = React.useState(false);
+  const [isAccepted, setIsAccepted] = React.useState<boolean | string>(false);
 
   const {
     control,
@@ -37,11 +40,13 @@ export default function LoginScreen() {
     const email = control._formValues.email;
     const name = control._formValues.name;
     const password = control._formValues.password;
+    const isTermAccepted = control._formValues.term;
 
     const userData: UserCreate = {
       login: email,
       name,
-      password
+      password,
+      isTermAccepted
     };
 
     console.log("User Data:", userData);
@@ -53,32 +58,48 @@ export default function LoginScreen() {
       <Heading fs={20} >Faça o login para continuar</Heading>
       <GoogleSignInButton />
 
-      <InputText control={control} name="name" placeholder="Digite seu nome completo" rules={{ required: true }} />
-
-      <InputEmail
-            control={control}
-            name="email"
-            placeholder="Digite seu e-mail"
-            rules={{ required: true }}
-          />
-
-      <InputPassword
-            control={control}
-            name="password"
-            placeholder="Enter your password"
-            rules={{ required: true }}
-            visibleValidation
-            onTouchStart={() => setIsPasswordClicked(!isPasswordClicked)}
-          />
+      <View style={{ display: "flex", flexDirection: "column", alignItems: "center", marginTop: 10 }}>
       
-      {isPasswordClicked && <PasswordWarning isVisible={isPasswordClicked} />}
+        <InputText control={control} name="name" placeholder="Digite seu nome completo" rules={{ required: true }} />
 
-      <Button
-        onPress={handleLogin.bind(null, control)}
-        title="BUTTON DE TESTE PARA OS CAMPOS DO CONTROL"
-        color="#841584"
-        accessibilityLabel="TESTE"
-      />
+        <InputEmail
+              control={control}
+              name="email"
+              placeholder="Digite seu e-mail"
+              rules={{ required: true }}
+            />
+
+        <InputPassword
+              control={control}
+              name="password"
+              placeholder="Digite sua senha"
+              rules={{ required: true }}
+              visibleValidation
+              onTouchStart={() => setIsPasswordClicked(!isPasswordClicked)}
+            />
+        
+        {isPasswordClicked && <PasswordWarning isVisible={isPasswordClicked} />}
+
+        <InputCheckbox
+          aria-label="Eu quero me cadastrar como entregador"
+          control={control}
+          label={
+            <>
+              <Text>Eu quero ser entregador</Text>
+            </>
+          }
+          name="term"
+          value={true}
+        />
+
+        <Button
+          onPress={handleLogin.bind(null, control)}
+          title="BUTTON DE TESTE PARA OS CAMPOS DO CONTROL"
+          color="#841584"
+          accessibilityLabel="TESTE"
+        />
+
+      </View>
     </PageDefault>
   );
 }
