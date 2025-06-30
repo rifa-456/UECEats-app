@@ -12,7 +12,7 @@ const validate = (value: string) => {
   return isValidPassword(value) || DEFAULT_ERROR_MESSAGE;
 };
 
-const InputPasswordValidation = <T extends FieldValues>(
+const InputPassword = <T extends FieldValues>(
   props: ComponentProps<typeof InputText<T>>
 ) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -22,6 +22,7 @@ const InputPasswordValidation = <T extends FieldValues>(
   return (
     <View style={{ flexDirection: "row", alignItems: "center" }}>
       <InputText
+        icon={null}
         {...props}
         inputProps={{
           ...props.inputProps,
@@ -29,11 +30,11 @@ const InputPasswordValidation = <T extends FieldValues>(
         }}
         rules={{ validate, ...props.rules }}
       />
-      <TouchableOpacity onPress={togglePassword} style={{ position: "absolute", right: 10 }}>
-        {showPassword ? <EyeOffIcon size={20} /> : <EyeIcon size={20} />}
+      <TouchableOpacity onPress={togglePassword} style={{ position: "absolute", right: 10, top: 15 }}>
+        {showPassword ? <EyeOffIcon color="#999" size={20} /> : <EyeIcon color="#999" size={20} />}
       </TouchableOpacity>
     </View>
   );
 };
 
-export default InputPasswordValidation;
+export default InputPassword;

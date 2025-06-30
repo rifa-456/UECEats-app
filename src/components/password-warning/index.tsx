@@ -11,7 +11,7 @@ const PasswordWarning = (props: PasswordWarningProps) => {
     return (
         <Animatable.View animation={props.isVisible ? "fadeIn" : "fadeOut"} duration={400}>
             <TextWarning w={props.w || 340} fs={12} h={42}>
-                Password must have at least 8 characters, one uppercase letter, one lowercase letter, and one number.
+                A senha deve ter pelo menos 8 caracteres, uma letra maiúscula, uma letra minúscula e um número.
             </TextWarning>
         </Animatable.View>
     );

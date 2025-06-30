@@ -16,4 +16,8 @@ import TrashIcon from "./trash";
 import UserIcon from "./user";
 import VerticalIcon from "./vertical";
 
-export { CameraIcon, CheckIcon, CloseIcon, EarthIcon, EllipsisIcon, EyeIcon, GalleryVerticalIcon, GridIcon, HorizontalIcon, ListIcon, MinusLineIcon, SearchIcon, ShieldIcon, SquarePenIcon, TrashIcon, UserIcon, VerticalIcon };
+export {
+    CameraIcon, CheckIcon, CloseIcon, EarthIcon, EllipsisIcon, EyeIcon, GalleryVerticalIcon, GridIcon, HorizontalIcon, ListIcon, MinusLineIcon,
+    SearchIcon, ShieldIcon, SquarePenIcon, TrashIcon, UserIcon, VerticalIcon
+};
+
