@@ -18,6 +18,11 @@ type InputTextProps<T extends FieldValues> = {
   formatInternalValue?: (str: string) => string;
   formatVisibleValue?: (str: string) => string;
   icon?: React.ComponentType<any> | null;
+  iconProps?: {
+    visible: boolean;
+    onToggle: () => void;
+    size: number;
+  };
   inputProps?: React.ComponentProps<typeof TextInput>;
   isLoading?: boolean;
   name: Path<T>;
@@ -40,6 +45,7 @@ const InputText = <T extends FieldValues>({
   containerStyle,
   inputStyle,
   icon,
+  iconProps,
   inputProps,
   isLoading,
   name,
@@ -57,13 +63,19 @@ const InputText = <T extends FieldValues>({
   const _visibleValidation = visibleValidation ?? true;
 
   const handleInputIcon = (isValid: boolean, isInvalid: boolean) => {
-    if (icon === null) return null;
+    if (icon === null) {
+      return (
+        <View style={styles.iconWrapper}>
+          <View style={{ width: 20, height: 20, display: "flex", alignItems: "center", opacity: 0 }} />
+        </View>
+      );
+    }
 
     if ((icon && !isValid && !isInvalid) || (icon && staticIcon)) {
       const IconComp = icon as React.ComponentType<any>;
       return (
         <View style={styles.iconWrapper}>
-          <IconComp color="#666" size={20} />
+          <IconComp color="#999" {...iconProps} />
         </View>
       );
     } else if (isValid && _visibleValidation) {
@@ -151,6 +163,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     marginBottom: 10,
     justifyContent: "space-between",
+    width: "100%",
   },
   textInput: {
     flex: 1,
