@@ -5,10 +5,10 @@ import React from "react";
 import { Control, useForm } from 'react-hook-form';
 
 
-import { Heading, InputCheckbox, InputEmail, InputPassword, InputText, PasswordWarning } from "@/src/components";
+import { Button, Heading, InputCheckbox, InputEmail, InputPassword, InputText, PasswordWarning } from "@/src/components";
 import PageDefault from "@/src/screens/Default";
 import { UserCreate } from "@/types/custom/user/UserCreateDTO";
-import { Button, Text, View } from "react-native";
+import { Text, View } from "react-native";
 
 
 const DEFAULT_FORM_VALUES = { email: "", password: "", name: "", term: false };
@@ -24,7 +24,6 @@ export default function LoginScreen() {
   const { isLoading: isLoggingIn, isAuthenticated } = useAuth();
 
   const [isPasswordClicked, setIsPasswordClicked] = React.useState(false);
-  const [isAccepted, setIsAccepted] = React.useState<boolean | string>(false);
 
   const {
     control,
@@ -93,11 +92,14 @@ export default function LoginScreen() {
         />
 
         <Button
-          onPress={handleLogin.bind(null, control)}
-          title="BUTTON DE TESTE PARA OS CAMPOS DO CONTROL"
-          color="#841584"
-          accessibilityLabel="TESTE"
-        />
+          isDisabled={!isValid}
+          isLoading={isLoggingIn}
+          onPress={handleSubmit(async () =>
+            handleLogin(control)
+            )}
+          mt={20}
+        >Handle Inputs
+        </Button>
 
       </View>
     </PageDefault>
