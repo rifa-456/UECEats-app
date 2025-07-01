@@ -5,7 +5,7 @@ import React from "react";
 import { Control, useForm } from 'react-hook-form';
 
 
-import { Button, Heading, InputCheckbox, InputEmail, InputPassword, InputText, PasswordWarning } from "@/src/components";
+import { Button, Card, Heading, InputCheckbox, InputEmail, InputPassword, InputText, PasswordWarning } from "@/src/components";
 import PageDefault from "@/src/screens/Default";
 import { UserCreate } from "@/types/custom/user/UserCreateDTO";
 import { Text, View } from "react-native";
@@ -89,6 +89,13 @@ export default function LoginScreen() {
           }
           name="term"
           value={true}
+        />
+
+        <Card
+          imageSrc={require('@/assets/images/salgado.png')}
+          title="Joelho"
+          description="Delicioso salgado de queijo e presunto"
+          price="R$ 50,00"
         />
 
         <Button
