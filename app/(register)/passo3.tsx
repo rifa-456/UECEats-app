@@ -13,7 +13,7 @@ interface FormData {
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get("window")
 
-export default function AvatarChangeScreen() {
+export default function InputMatriculaScreen() {
   const [shouldRedirect, setShouldRedirect] = useState(false);
   const { isAuthenticated, isLoading } = useAuth();
   const { user, logout } = useUserStore();

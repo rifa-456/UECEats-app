@@ -1,7 +1,7 @@
 import { View, StyleSheet, ScrollView, Image, Text, SafeAreaView, Dimensions } from "react-native"
 import { Control, useForm, useWatch} from "react-hook-form"
 import { Button, Heading, InputEmail, InputText, InputCheckbox} from "@/src/components";
-import { UserIcon } from "@/src/components/icons";
+import { CheckIcon } from "@/src/components/icons";
 import { Redirect } from "expo-router";
 import { useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
@@ -15,7 +15,7 @@ type FormData = {
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get("window")
 
-export default function AvatarChangeScreen() {
+export default function isEntregadorScreen() {
   const [shouldRedirect, setShouldRedirect] = useState(false);
   const { isAuthenticated, isLoading } = useAuth();
   const { user, logout } = useUserStore();
@@ -71,23 +71,27 @@ export default function AvatarChangeScreen() {
             Dseseja se candidatar para ser um entregador?</Text>
           <View style={styles.checkBoxArea}>
             <InputCheckbox
-            aria-label="Eu quero me cadastrar como entregador"
-            control={control}
-            label={
-                <View style= {{marginTop: 10}}>
-                <Text>Eu quero ser entregador</Text>
-                <Text style={styles.entregadorDesc}>Como entregador, você poderá ganhar uma renda extra fazendo entregas para outros estudantes.</Text>
+              aria-label="Eu quero me cadastrar como entregador"
+              control={control}
+              name="isEntregador"
+              value={true}
+              label={
+                <View style={styles.checkboxLabel}>
+                  <Text style={styles.checkboxTitle}>Quero me candidatar para ser entregador</Text>
+                  <Text style={styles.entregadorDesc}>
+                    Como entregador, você poderá ganhar uma renda extra fazendo entregas para outros estudantes.
+                  </Text>
                 </View>
-            }
-            name="isEntregador"
-            value={true}
+              }
             />
-            
-
           </View>
-          
           {isChecked && (
-            <Text>Teste</Text>
+            <View style={styles.infoBox}>
+              <CheckIcon />
+              <Text style={styles.infoText}>
+                Sua candidatura será analisada pela equipe do UECEats.
+              </Text>
+            </View>
           )}
         </View>
 
@@ -176,6 +180,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     width: screenWidth * 0.9,
     paddingLeft: 20,
+    paddingRight: 20,
     flex: 1,
     paddingTop: 15,
   },
@@ -185,18 +190,47 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   checkBoxArea: {
-    backgroundColor: "white",
-    marginRight: "5%",
+    backgroundColor: "#ffffff",
     borderRadius: 7,
-    borderColor: "green",
-    borderWidth: 0.5,
-    paddingTop: "0.5%",
-    paddingLeft: "5%",
-    paddingRight: "10%"
+    borderColor: "#86EFAC",
+    borderWidth: 0.8,
+    paddingHorizontal: 12,
+    paddingVertical: 10
   },
+  checkboxLabel: {
+    flexDirection: "column",
+    flexShrink: 1,
+  },
+  checkboxTitle: {
+    fontSize: 13,
+    fontWeight: "500",
+    marginBottom: 4,
+    color: "#000000",
+  },
+
   entregadorDesc: {
-    color: "grey",
-    marginRight: "10%"
+    color: "#666",
+    fontSize: 11,
+    lineHeight: 16,
+    flexShrink: 1,
+  },
+
+  infoBox: {
+    marginTop: 12,
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#DCFCE7",
+    borderRadius: 7,
+    borderColor: "#86EFAC",
+    borderWidth: 0.8,
+    padding: 12,
+    maxWidth: screenWidth * 0.85,
+  },
+  infoText: {
+    color: "#166534",
+    fontSize: 13,
+    marginLeft: 8,
+    flexShrink: 1,
   },
   buttonContainer: {
     paddingVertical: 15,
