@@ -1,6 +1,7 @@
 import { View, StyleSheet, ScrollView, Image, Text, SafeAreaView, Dimensions } from "react-native"
 import { Control, useForm } from "react-hook-form"
 import { Button, Heading, InputEmail, InputText } from "@/src/components";
+import { UserIcon } from "@/src/components/icons";
 import { Redirect } from "expo-router";
 import { useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
@@ -19,7 +20,7 @@ export default function AvatarChangeScreen() {
   const { user, logout } = useUserStore();
   // Mudar para ir pro passo 3
   if (shouldRedirect) {
-    return <Redirect href="/" />;
+    return <Redirect href="/(register)/passo3" />;
   }
   return (
     <SafeAreaView style={styles.safeArea}>

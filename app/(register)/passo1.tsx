@@ -28,11 +28,11 @@ export default function InitialSetupScreen() {
     return null;
   }
   if (!isAuthenticated || !user) {
-    return <Redirect href="/" />;
+    //return <Redirect href="/" />;
   }
   console.log("authenticated")
-  const username = user.username || "User";
-  const email = user.email || "No email provided";
+  const username = user?.username || "User";
+  const email = user?.email || "No email provided";
 
   
   

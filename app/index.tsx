@@ -18,8 +18,8 @@ const { width, height } = Dimensions.get('window');
 const WelcomeScreen = () => {
   const { isLoading: isLoggingIn, isAuthenticated } = useAuth();
 
-  if (isAuthenticated) {
-    return <Redirect href="/passo1"/>;
+  if (!isAuthenticated) {
+    return <Redirect href="/(register)/passo1"/>;
   }
 
   const handlePrivacyPolicy = () => {
