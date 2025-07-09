@@ -2,114 +2,122 @@ import { GoogleSignInButton } from "@/components/ui/GoogleSignInButton";
 import { useAuth } from "@/hooks/useAuth";
 import { Redirect } from "expo-router";
 import React from "react";
-import { Control, useForm } from 'react-hook-form';
+import {
+  Dimensions,
+  Image,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View
+} from 'react-native';
+
+const { width, height } = Dimensions.get('window');
 
 
-import { Button, Card, Heading, InputCheckbox, InputEmail, InputPassword, InputText, PasswordWarning } from "@/src/components";
-import PageDefault from "@/src/screens/Default";
-import { UserCreate } from "@/types/custom/user/UserCreateDTO";
-import { Text, View } from "react-native";
-
-
-const DEFAULT_FORM_VALUES = { email: "", password: "", name: "", term: false };
-
-type FormData = {
-  email: string;
-  password: string;
-  name: string;
-  term: boolean;
-};
-
-export default function LoginScreen() {
+const WelcomeScreen = () => {
   const { isLoading: isLoggingIn, isAuthenticated } = useAuth();
 
-  const [isPasswordClicked, setIsPasswordClicked] = React.useState(false);
-
-  const {
-    control,
-    formState: { isValid },
-    handleSubmit,
-  } = useForm({ defaultValues: DEFAULT_FORM_VALUES, mode: "onChange" })
-
-  if (isAuthenticated) {
-    return <Redirect href="/(tabs)/welcome" />;
+  if (!isAuthenticated) {
+    return <Redirect href="/(register)/passo1"/>;
   }
 
-  const handleLogin = async (control: Control<FormData>) => {
-    const email = control._formValues.email;
-    const name = control._formValues.name;
-    const password = control._formValues.password;
-    const isTermAccepted = control._formValues.term;
-
-    const userData: UserCreate = {
-      login: email,
-      name,
-      password,
-      isTermAccepted
-    };
-
-    console.log("User Data:", userData);
+  const handlePrivacyPolicy = () => {
+    console.log('Privacy policy pressed');
   };
 
   return (
-    <PageDefault>
-      <Heading mb={10}>Bem-Vindo ao UECEats</Heading>
-      <Heading fs={20} >Faça o login para continuar</Heading>
-      <GoogleSignInButton />
+    <SafeAreaView style={styles.container}>
+      {/* Background */}
+      <Image
+        source={require('@/assets/images/loginbg.png')}
+        style={styles.background}
+        resizeMode="cover"
+      />
 
-      <View style={{ display: "flex", flexDirection: "column", alignItems: "center", marginTop: 10 }}>
-      
-        <InputText control={control} name="name" placeholder="Digite seu nome completo" rules={{ required: true }} />
-
-        <InputEmail
-              control={control}
-              name="email"
-              placeholder="Digite seu e-mail"
-              rules={{ required: true }}
-            />
-
-        <InputPassword
-              control={control}
-              name="password"
-              placeholder="Digite sua senha"
-              rules={{ required: true }}
-              visibleValidation
-              onTouchStart={() => setIsPasswordClicked(!isPasswordClicked)}
-            />
-        
-        {isPasswordClicked && <PasswordWarning isVisible={isPasswordClicked} />}
-
-        <InputCheckbox
-          aria-label="Eu quero me cadastrar como entregador"
-          control={control}
-          label={
-            <>
-              <Text>Eu quero ser entregador</Text>
-            </>
-          }
-          name="term"
-          value={true}
+      {/* Logo in center of upper area */}
+      <View style={[styles.content, { height: height * 0.6}]}>
+        <Image
+          source={require('@/assets/images/logouece.png')}
+          style={styles.logoImage}
+          resizeMode="contain"
         />
-
-        <Card
-          imageSrc={require('@/assets/images/salgado.png')}
-          title="Joelho"
-          description="Delicioso salgado de queijo e presunto"
-          price="R$ 50,00"
-        />
-
-        <Button
-          isDisabled={!isValid}
-          isLoading={isLoggingIn}
-          onPress={handleSubmit(async () =>
-            handleLogin(control)
-            )}
-          mt={20}
-        >Handle Inputs
-        </Button>
-
       </View>
-    </PageDefault>
-  );
-}
 
+      {/* Welcome Card - Fixed at Bottom */}
+      <View style={[styles.welcomeCard, { height: height * 0.4}]}>
+        <Text style={styles.appName}>UECEats</Text>
+        <Text style={styles.welcomeText}>Seja Bem vindo!</Text>
+
+        <GoogleSignInButton />
+
+        <TouchableOpacity
+          onPress={handlePrivacyPolicy}
+          style={styles.privacyLink}
+        >
+          <Text style={styles.privacyText}>
+            Ver Políticas de Privacidade e Termos de uso
+          </Text>
+        </TouchableOpacity>
+      </View>
+    </SafeAreaView>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  background: {
+    position: 'absolute',
+    width: width,
+    height: height,
+    top: 0,
+    left: 0,
+  },
+  content: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: width * 0.05,
+  },
+  welcomeCard: {
+    position: 'absolute',
+    bottom: 0,
+    width: width,
+    backgroundColor: 'white',
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    alignItems: 'center',
+    paddingVertical: height * 0.035,
+    paddingHorizontal: width * 0.08,
+    shadowOpacity: 0.3,
+    shadowRadius: 4.65,
+    borderColor: "#00ff00",
+  },
+  appName: {
+    fontSize: width * 0.085,
+    fontWeight: 'bold',
+    color: '#2E7D32',
+    marginBottom: height * 0.012,
+  },
+  welcomeText: {
+    fontSize: width * 0.048,
+    color: '#666',
+    marginBottom: height * 0.03,
+  },
+  privacyLink: {
+    marginTop: height * 0.02,
+  },
+  privacyText: {
+    color: '#666',
+    fontSize: width * 0.032,
+    textDecorationLine: 'underline',
+    textAlign: 'center',
+  },
+  logoImage: {
+    width: width * 0.48,
+    height: width * 0.48,
+  },
+});
+
+export default WelcomeScreen;
