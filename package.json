@@ -5,6 +5,7 @@
   "private": true,
   "scripts": {
     "start": "expo start --clear",
+    "dev": "expo start --clear",
     "android": "DARK_MODE=media expo start --android",
     "ios": "DARK_MODE=media expo start --ios",
     "web": "DARK_MODE=media expo start --web",
