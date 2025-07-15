@@ -59,7 +59,7 @@ const InputText = <T extends FieldValues>({
   ...props
 }: InputTextProps<T>) => {
   const _formatVisibleValue = formatVisibleValue || ((v) => v);
-  const _formatInternalValue = formatInternalValue || ((v) => v);
+  const _formatInternalValue = formatInternalValue || ((v) => v.trim());
   const _visibleValidation = visibleValidation ?? true;
 
   const handleInputIcon = (isValid: boolean, isInvalid: boolean) => {
