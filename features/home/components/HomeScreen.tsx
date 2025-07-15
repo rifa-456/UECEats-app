@@ -3,10 +3,9 @@ import { View } from 'react-native';
 import { VStack } from '@/components/ui/vstack';
 import { Heading } from '@/components/ui/heading';
 import { SearchBar } from './SearchBar';
-import { Grid } from '@/components/ui/grid';
-import { CategoryCard } from './CategoryCard';
+import {Grid, GridItem} from '@/components/ui/grid';
 import { useHome } from '../hooks/useHome';
-import { SearchResults } from './SearchResults';
+import {Card} from "@/components/Card";
  
 const categoryData = [
   {
@@ -30,7 +29,13 @@ const categoryData = [
 ];
 
 export const HomeScreen = () => {
-  const { searchQuery, setSearchQuery } = useHome();
+  const {
+    searchQuery,
+    setSearchQuery,
+    searchResults,
+    isLoading,
+  } = useHome();
+
   const isSearching = searchQuery.trim().length > 0;
   return (
     <VStack space="md" className="flex-1 bg-white p-4 pt-8">
@@ -42,31 +47,36 @@ export const HomeScreen = () => {
       {!isSearching ? (
         <>
           <Heading size="xl" className="mt-6 mb-2">
-            Categorias
+                Categorias
           </Heading>
           <Grid className="gap-4" _extra={{ className: 'grid-cols-6' }}>
             {categoryData.map((cat) => (
-              <CategoryCard
-                key={cat.label}
-                label={cat.label}
-                imageSource={cat.imageSource}
-                backgroundColor={cat.backgroundColor}
-                textColor={cat.textColor}
-                onPress={() => console.log(`Navigating to category: ${cat.label}`)}
-              />
+              <GridItem _extra={{ className: 'col-span-3' }}
+                key={cat.label} >
+                <Card 
+                  imageSrc={cat.imageSource}
+                  title={cat.label}
+                  bgColor={cat.backgroundColor}
+                  onPress={() => console.log(`Navigating to category: ${cat.label}`)}
+                />
+              </GridItem>
             ))}
           </Grid>
         </>
       ) : (
         <>
           <Heading size="xl" className="mt-6 mb-2">
-            Você procurou por {searchQuery}
+                Você procurou por {searchQuery}
           </Heading>
           <View className="flex-1">
-            <SearchResults />
+            <SearchResults
+              searchResults={searchResults}
+              isLoading={isLoading}
+            />
           </View>
         </>
       )}
     </VStack>
   );
 };
+ 

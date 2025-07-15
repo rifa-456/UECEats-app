@@ -1,4 +1,3 @@
-// app/(auth)/initial-setup/step1.tsx
 import React from "react";
 import { VStack } from "@/components/ui/vstack";
 import { Input, InputField } from "@/components/ui/input";

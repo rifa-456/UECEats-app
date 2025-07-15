@@ -14,8 +14,16 @@ export const homeService = {
           nomeRestaurante: {
             $containsi: name,
           },
-        }, 
+        },
+        populate: {
+          usuario: {
+            populate: {
+              avatar: true,
+            }
+          }
+        }
       });
+      // @ts-ignore
       return response.data;
     } catch (error) {
       console.error('Failed to search restaurants:', error);

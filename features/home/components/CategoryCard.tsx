@@ -8,8 +8,12 @@ import { ImageSourcePropType } from 'react-native';
 interface CategoryCardProps {
     label: string;
     imageSource: ImageSourcePropType;
+    /** NativeWind background-color class, e.g. "bg-[#CF7E2C]" */
     backgroundColor: string;
+    /** NativeWind text-color class, e.g. "text-[#FFFFFF]" */
     textColor: string;
+    /** Optional price string, e.g. "$12.99" */
+    price?: string;
     onPress: () => void;
 }
 
@@ -18,22 +22,30 @@ export const CategoryCard = ({
   imageSource,
   backgroundColor,
   textColor,
-  onPress
+  price,
+  onPress,
 }: CategoryCardProps) => {
   return (
-    <GridItem _extra={{ className: "col-span-3" }}>
+    <GridItem _extra={{ className: 'col-span-3' }}>
       <Pressable
         onPress={onPress}
-        className={`${backgroundColor} rounded-lg p-3 flex-row justify-between items-center h-24`}
+        className={
+          `${backgroundColor} w-[371px] h-[86px] rounded-[20px] overflow-hidden flex-row items-center`
+        }
       >
-        <Text className={`font-bold text-lg ${textColor}`}>{label}</Text>
+        <Text className={`font-bold text-[16px] ${textColor} flex-1 pl-[10px]`}>{label}</Text>
+
+        {price && (
+          <Text className="w-[60px] text-[14px] font-bold text-right ${textColor}">{price}</Text>
+        )}
+
         <Image
           source={imageSource}
           alt={label}
-          className="w-16 h-16"
+          className="w-[100px] h-full"
           resizeMode="contain"
         />
       </Pressable>
     </GridItem>
   );
-}; 
+};

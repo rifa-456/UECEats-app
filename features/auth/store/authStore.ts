@@ -17,7 +17,7 @@ export const useAuthStore = create<AuthState & AuthActions>()(
       completeSetup: () => set({ isSetupComplete: true }),
       isAuthenticated: () => get().user !== null && get().jwt !== null,
     }),
-    { 
+    {
       name: "auth-storage",
       storage: createJSONStorage(() => ({
         setItem: async (name, value) => {
