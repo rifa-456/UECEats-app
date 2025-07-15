@@ -1,23 +1,23 @@
 import { GoogleSignInButton } from "@/components/ui/GoogleSignInButton";
 import { useAuth } from "@/hooks/useAuth";
-import { Redirect } from "expo-router";
 import React from "react";
 import { Control, useForm } from 'react-hook-form';
 
 
-import { Button, Card, Heading, InputCheckbox, InputEmail, InputPassword, InputText, PasswordWarning } from "@/src/components";
+import { Button, Card, Heading, InputCheckbox, InputEmail, InputPassword, InputText, PasswordWarning, SearchInput } from "@/src/components";
 import PageDefault from "@/src/screens/Default";
 import { UserCreate } from "@/types/custom/user/UserCreateDTO";
 import { Text, View } from "react-native";
 
 
-const DEFAULT_FORM_VALUES = { email: "", password: "", name: "", term: false };
+const DEFAULT_FORM_VALUES = { email: "", password: "", name: "", term: false, search: "" };
 
 type FormData = {
   email: string;
   password: string;
   name: string;
   term: boolean;
+  search: string;
 };
 
 export default function LoginScreen() {
@@ -29,6 +29,7 @@ export default function LoginScreen() {
     control,
     formState: { isValid },
     handleSubmit,
+    setValue
   } = useForm({ defaultValues: DEFAULT_FORM_VALUES, mode: "onChange" })
 
   const handleLogin = async (control: Control<FormData>) => {
@@ -45,6 +46,12 @@ export default function LoginScreen() {
     };
 
     console.log("User Data:", userData);
+  };
+
+  const handleDebouncedSearch = (value: string) => {
+    const trimmed = value.trim();
+    console.log("Searching for:", trimmed);
+    setValue("search", trimmed);
   };
 
   return (
@@ -85,6 +92,13 @@ export default function LoginScreen() {
           }
           name="term"
           value={true}
+        />
+
+        <SearchInput
+          control={control}
+          name="search"
+          placeholder="Buscar por itens..."
+          onDebouncedChange={handleDebouncedSearch}
         />
 
         <Card
