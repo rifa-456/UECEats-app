@@ -1,11 +1,11 @@
 import React from "react";
 import {
-    Image,
-    ImageSourcePropType,
-    StyleSheet,
-    Text,
-    View,
-    ViewStyle,
+  Image,
+  ImageSourcePropType,
+  StyleSheet,
+  Text,
+  View,
+  ViewStyle,
 } from "react-native";
 
 type CardProps = {
